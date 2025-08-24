@@ -29,6 +29,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <!-- Animate.css for scroll animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <style>
         /* Global Reset & Base Styles */
@@ -81,6 +83,11 @@
             overflow-x: hidden;
             font-weight: 400;
             padding-top: 0;
+        }
+        
+        /* Helper class for animations */
+        [data-animation] {
+            opacity: 0; /* Hide elements initially */
         }
 
         a {
@@ -155,26 +162,20 @@
         }
 
         .hero::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Gradien yang diperbaiki:
-       - Dimulai dengan warna solid di kiri (30%).
-       - Mulai transisi ke 50% transparan di tengah (60%).
-       - Menjadi sepenuhnya transparan di kanan (80%).
-    */
-    background: linear-gradient(90deg, 
-        var(--bg-primary) 30%, 
-        rgba(255, 255, 255, 0.5) 60%, 
-        rgba(255, 255, 255, 0) 80%
-    );
-    z-index: 1;
-}
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                var(--bg-primary) 30%, 
+                rgba(255, 255, 255, 0.5) 60%, 
+                rgba(255, 255, 255, 0) 80%
+            );
+            z-index: 1;
+        }
         
-        /* The original fixed logo is no longer needed */
         .hero-logo {
             display: none; 
         }
@@ -209,7 +210,6 @@
         }
 
         .hero-headline {
-            /* Replaces the old h1 style */
             font-size: clamp(2.2rem, 5vw, 3.5rem); /* Responsive font size */
             font-weight: 800;
             margin: 0 0 24px 0;
@@ -225,7 +225,6 @@
         }
 
         .hero-headline .highlight-text-gradient {
-            /* A fancy gradient for the main value proposition */
             background: linear-gradient(45deg, var(--primary-light), var(--primary-dark));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -234,7 +233,6 @@
         }
 
         .hero .subtitle {
-            /* Overwrite existing subtitle styles for this context */
             font-size: clamp(1rem, 2.5vw, 1.15rem);
             color: var(--text-secondary);
             max-width: 500px;
@@ -254,10 +252,9 @@
         }
 
         .hero .cta-button {
-            /* Ensure the button animation doesn't conflict */
-            opacity: 1; /* Override the default 0 opacity */
-            transform: none; /* Reset transform */
-            animation: none; /* Remove the old button pop-in animation */
+            opacity: 1; 
+            transform: none;
+            animation: none;
             padding: 18px 36px;
             font-size: 1.05rem;
             font-weight: 700;
@@ -292,26 +289,9 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            animation: buttonPopIn 0.6s ease-out forwards;
-            opacity: 0;
-            transform: translateY(10px) scale(0.95);
             box-shadow: var(--shadow-sm);
             letter-spacing: -0.025em;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes buttonPopIn {
-            0% {
-                opacity: 0;
-                transform: translateY(10px) scale(0.95);
-            }
-            70% {
-                transform: translateY(-3px) scale(1.02);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
         }
 
         .cta-button:hover {
@@ -369,14 +349,6 @@
             display: flex;
             align-items: flex-start;
             margin-bottom: 20px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .belonging-item.animate__animated {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .belonging-icon {
@@ -416,17 +388,6 @@
             align-items: center;
             gap: 60px;
         }
-
-        .solution-image-wrapper {
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .solution-image-wrapper.is-visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
         
         .solution-image-wrapper img {
             max-width: 100%;
@@ -436,15 +397,6 @@
 
         .solution-content {
             text-align: left;
-            opacity: 0;
-            transform: translateX(50px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            transition-delay: 0.2s;
-        }
-
-        .solution-content.is-visible {
-            opacity: 1;
-            transform: translateX(0);
         }
 
         .solution-content .section-title {
@@ -507,32 +459,9 @@
             z-index: 1;
         }
 
-        .feature-card::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(
-                circle at center,
-                var(--blue-glow-start) 0%,
-                var(--blue-glow-end) 30%,
-                transparent 70%
-            );
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 0;
-            border-radius: 50%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .feature-card.animate__animated.animate__popup {
-            animation: popup 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        .feature-card.animate__animated.animate__popup::after {
-            animation: blueGlow 0.8s ease-out forwards;
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
         }
         
         .feature-swiper-container {
@@ -604,54 +533,99 @@
             line-height: 1.5;
         }
 
+        /* --- START: Testimonial Section Redesign --- */
         .testimonials-section {
             background: var(--bg-secondary);
+            padding: 100px 0;
         }
 
         .testimonials-container {
             position: relative;
-            max-width: 800px;
+            width: 100%;
+            max-width: 100%; /* Allow full width for coverflow */
             margin: 0 auto;
+            padding: 40px 0;
         }
 
-        .swiper-slide {
+        .testimonial-swiper {
+            width: 100%;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        .testimonial-swiper .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            width: 320px; /* Lebar setiap kartu testimoni */
+            height: auto;
+            filter: blur(2px); /* Efek blur untuk slide di samping */
+            transition: filter 0.5s ease;
+        }
+
+        .testimonial-swiper .swiper-slide-active {
+            filter: blur(0px); /* Slide aktif tidak blur */
+        }
+
+        .testimonial-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-        }
-
-        .testimonial-slide {
-            padding: 20px;
-            border-radius: 12px;
             background: var(--bg-primary);
-            box-shadow: var(--shadow-sm);
-            transition: box-shadow 0.3s ease;
-            margin: 0 15px;
+            border-radius: 16px;
+            padding: 40px 20px 30px 20px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+        
+        .testimonial-swiper .swiper-slide-active .testimonial-card {
+            transform: scale(1); /* Slide aktif lebih besar */
         }
 
-        .swiper-slide-active .testimonial-slide {
-            box-shadow: var(--shadow-md);
+        .testimonial-card::before {
+            content: '“';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 100px;
+            font-weight: 800;
+            color: var(--primary);
+            opacity: 0.1;
+            line-height: 1;
+            z-index: 1;
         }
 
-        .testimonial-slide img {
-            width: 70px;
-            height: 70px;
+        .testimonial-card .avatar {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             object-fit: cover;
-            margin: 0 auto 20px;
-            border: 2px solid var(--primary);
+            margin-bottom: 20px;
+            border: 4px solid var(--primary);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            z-index: 2;
         }
 
-        .testimonial-slide p {
+        .testimonial-card .text {
             font-style: italic;
             margin-bottom: 20px;
             color: var(--text-secondary);
             font-size: 1rem;
+            line-height: 1.6;
+            min-height: 80px; /* Jaga tinggi minimum agar layout stabil */
         }
 
-        .testimonial-slide span {
-            font-weight: 600;
+        .testimonial-card .author {
+            font-weight: 700;
             color: var(--primary);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
+        /* --- END: Testimonial Section Redesign --- */
 
         .pricing-section {
             text-align: center;
@@ -672,32 +646,9 @@
             z-index: 1;
         }
 
-        .pricing-card::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(
-                circle at center,
-                var(--blue-glow-start) 0%,
-                var(--blue-glow-end) 30%,
-                transparent 70%
-            );
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 0;
-            border-radius: 50%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .pricing-card.animate__animated.animate__popup {
-            animation: popup 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        .pricing-card.animate__animated.animate__popup::after {
-            animation: blueGlow 0.8s ease-out forwards;
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
         }
 
         .popular-tag {
@@ -906,6 +857,7 @@
             color: var(--text-muted);
         }
         
+        /* --- START: AI Chatbot Redesign (Light Theme) --- */
         .gemini-feature-section {
             background-color: var(--bg-secondary);
         }
@@ -923,23 +875,52 @@
         }
 
         .ai-chatbot-header {
-            background: var(--bg-tertiary);
+            background: var(--primary);
             padding: 16px 24px;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+        
+        .ai-chatbot-header .header-left {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        
+
         .ai-chatbot-header .icon {
-            color: var(--primary);
+            color: white;
         }
 
         .ai-chatbot-header h3 {
-            font-size: 1.0rem; /* EDITED: Was 1.1rem */
+            font-size: 1.1rem;
             font-weight: 600;
-            color: var(--text-primary);
             margin: 0;
+        }
+        
+        .ai-chatbot-header .status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .ai-chatbot-header .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #25d366;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
 
         .chat-window {
@@ -955,7 +936,7 @@
         .chat-message {
             display: flex;
             align-items: flex-start;
-            gap: 10px;
+            gap: 12px;
             max-width: 85%;
         }
 
@@ -965,8 +946,8 @@
         }
 
         .chat-message .avatar {
-            width: 36px;
-            height: 36px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -975,10 +956,10 @@
             color: white;
             box-shadow: var(--shadow-sm);
         }
-
+        
         .chat-message .avatar svg {
-            width: 20px;
-            height: 20px;
+            width: 15px;
+            height: 15px;
         }
         
         .chat-message.ai .avatar {
@@ -990,57 +971,41 @@
         }
 
         .chat-bubble {
-            padding: 12px 18px;
-            border-radius: 18px;
-            line-height: 1.5;
-            font-size: 0.675rem; /* EDITED: Was 0.9rem */
+            padding: 14px 20px;
+            border-radius: 20px;
+            line-height: 1.3;
+            font-size: 0.65rem;
         }
 
         .chat-bubble.user {
             background-color: var(--primary);
             color: white;
-            border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 6px;
         }
 
         .chat-bubble.ai {
-            background-color: var(--bg-primary);
+            background-color: var(--bg-tertiary);
             color: var(--text-secondary);
-            border-bottom-left-radius: 4px;
-            border: 1px solid var(--border-light);
-        }
-        
-        .chat-action-button {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white !important;
-            text-decoration: none !important;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-weight: 600;
-            margin-top: 8px;
-            transition: background-color 0.2s, transform 0.2s;
-        }
-
-        .chat-action-button:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
+            border-bottom-left-radius: 6px;
         }
         
         .chat-input-area {
             display: flex;
             gap: 10px;
-            padding: 24px;
+            padding: 16px;
             border-top: 1px solid var(--border-light);
             background: var(--bg-primary);
         }
         
         #prompt-input {
             flex-grow: 1;
-            padding: 15px 20px;
+            padding: 14px 20px;
             border-radius: 25px;
             border: 1px solid var(--border-medium);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
             font-family: 'Inter', sans-serif;
-            font-size: 0.9rem; /* EDITED: Was 1rem */
+            font-size: 0.95rem;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
         
@@ -1053,12 +1018,21 @@
         #generator-button {
             opacity: 1;
             transform: none;
-            padding: 15px 25px;
-            border-radius: 25px;
+            padding: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            flex-shrink: 0;
+        }
+        #generator-button span {
+            display: none; /* Hide text */
+        }
+        #generator-button svg {
+            width: 20px;
+            height: 20px;
         }
         
         .typing-indicator {
@@ -1081,6 +1055,7 @@
             0%, 80%, 100% { transform: scale(0); }
             40% { transform: scale(1.0); }
         }
+        /* --- END: AI Chatbot Redesign --- */
 
         .faq-section {
             background: var(--bg-primary);
@@ -1167,9 +1142,6 @@
             letter-spacing: 1.5px;
             font-size: 0.8rem;
             margin-bottom: 8px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
         .final-cta h2 {
@@ -1178,9 +1150,6 @@
             margin-bottom: 16px;
             color: white;
             letter-spacing: -0.025em;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
         }
 
         .final-cta p {
@@ -1190,9 +1159,6 @@
             margin-left: auto;
             margin-right: auto;
             color: rgba(255, 255, 255, 0.9);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
         }
         
         .final-cta p strong {
@@ -1206,23 +1172,11 @@
             font-weight: 700; /* Bolder */
             transform: scale(1.05); /* Slightly larger */
             box-shadow: var(--shadow-lg);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease, opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
         }
 
         .final-cta .cta-button:hover {
             background: var(--bg-tertiary);
             transform: scale(1.1) translateY(-3px); /* Enhanced hover effect */
-        }
-        
-        /* Animation reveal classes */
-        .final-cta.is-visible .cta-kicker,
-        .final-cta.is-visible h2,
-        .final-cta.is-visible p,
-        .final-cta.is-visible .cta-button {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .cta-decoration {
@@ -1357,45 +1311,7 @@
         .feature-images-grid .grid-item.small:nth-child(3):hover {
             transform: scale(1.02);
         }
-
-        .feature-images-grid::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(
-                circle at center,
-                var(--popup-glow-start) 0%,
-                var(--popup-glow-end) 30%,
-                transparent 70%
-            );
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 0;
-            border-radius: 50%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .feature-images-grid.animate__animated.animate__popup::before {
-            animation: blueGlowPopup 1s ease-out forwards;
-        }
-
-        @keyframes blueGlowPopup {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-                opacity: 1;
-            }
-            70% {
-                opacity: 0.7;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(2);
-                opacity: 0;
-            }
-        }
-
+        
         .image-modal {
             display: none;
             position: fixed;
@@ -1524,85 +1440,40 @@
             background: #fff;
         }
 
-        .animate__animated {
-            animation-duration: 0.6s;
-            animation-fill-mode: both;
-        }
+        @media (max-width: 992px) {
+            .hero {
+                text-align: center;
+                background-position: center center;
+            }
 
-        .animate__fadeInUp {
-            animation-name: fadeInUp;
-        }
+            .hero::before {
+                background: rgba(255, 255, 255, 0.7);
+            }
 
-        @keyframes popup {
-            0% {
-                opacity: 0;
-                transform: translateY(20px) scale(0.95);
+            .hero-content {
+                max-width: 100%;
+                text-align: center;
             }
-            70% {
-                transform: translateY(-5px) scale(1.02);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
 
-        @keyframes blueGlow {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-                opacity: 1;
+            .hero-headline {
+                margin-left: auto;
+                margin-right: auto;
             }
-            70% {
-                opacity: 0.7;
+
+            .hero .subtitle {
+                margin-left: auto;
+                margin-right: auto;
             }
-            100% {
-                transform: translate(-50%, -50%) scale(2);
-                opacity: 0;
+
+            .hero-logo-inline {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-actions {
+                justify-content: center;
             }
         }
-        
-        /* Media query for Hero section responsiveness */
-       @media (max-width: 992px) {
-    /* Pastikan tidak ada properti 'opacity' di dalam aturan .hero di sini */
-    .hero {
-        text-align: center;
-        background-position: center center;
-    }
-
-    .hero::before {
-        /* INI KUNCI PERBAIKANNYA:
-           Kita hanya menerapkan satu lapis warna putih dengan transparansi 70%.
-           Ini akan membuat gambar latar di belakangnya terlihat remang-remang,
-           tetapi teks dan tombol di atasnya tetap 100% solid dan terbaca jelas.
-        */
-        background: rgba(255, 255, 255, 0.7); /* Latar putih dengan transparansi 70% */
-    }
-
-    /* Aturan lain di dalam media query ini tidak perlu diubah */
-    .hero-content {
-        max-width: 100%;
-        text-align: center;
-    }
-
-    .hero-headline {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .hero .subtitle {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .hero-logo-inline {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .hero-actions {
-        justify-content: center;
-    }
-}
 
         @media (max-width: 992px) { /* Tablet and below */
             .solution-grid {
@@ -1619,10 +1490,6 @@
             .solution-list li {
                 justify-content: center;
                 text-align: left;
-            }
-            .solution-image-wrapper,
-            .solution-content {
-                transform: translateY(30px);
             }
         }
 
@@ -1847,42 +1714,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
     <section class="section problem-section">
         <div class="container">
-            <h2 class="section-title">Kenapa Banyak Trader Gagal?</h2>
+            <h2 class="section-title" data-animation="fadeInUp">Kenapa Banyak Trader Gagal?</h2>
             <div class="problem-content">
-                <p>Jika Kamu Trading Masih :</p>
+                <p data-animation="fadeInUp" data-animation-delay="0.2s">Jika Kamu Trading Masih :</p>
                 <ul class="problem-list">
-                    <li>Entry sembarangan tanpa strategi yang jelas</li>
-                    <li>Stop Loss terlalu tebal dan Lot Terlalu Besar</li>
-                    <li>Mengandalkan signal abal-abal dari sosial media</li>
-                    <li>Tidak memiliki strategi konsisten</li>
-                    <li>Overtrade, Revenge Trading Sampai MC</li>
+                    <li data-animation="fadeInUp" data-animation-delay="0.3s">Entry sembarangan tanpa strategi yang jelas</li>
+                    <li data-animation="fadeInUp" data-animation-delay="0.4s">Stop Loss terlalu tebal dan Lot Terlalu Besar</li>
+                    <li data-animation="fadeInUp" data-animation-delay="0.5s">Mengandalkan signal abal-abal dari sosial media</li>
+                    <li data-animation="fadeInUp" data-animation-delay="0.6s">Tidak memiliki strategi konsisten</li>
+                    <li data-animation="fadeInUp" data-animation-delay="0.7s">Overtrade, Revenge Trading Sampai MC</li>
                 </ul>
-                <p><strong>Bagus! Berarti Kamu Masih Jadi Mangsa Buat Para Smart Money</strong></p>
+                <p data-animation="fadeInUp" data-animation-delay="0.8s"><strong>Bagus! Berarti Kamu Masih Jadi Mangsa Buat Para Smart Money</strong></p>
             </div>
         </div>
     </section>
 
     <section class="section belonging-section">
         <div class="container">
-            <h2 class="section-title">Tapi... Kalau Kalian Ingin</h2>
+            <h2 class="section-title" data-animation="fadeInUp">Tapi... Kalau Kalian Ingin</h2>
             <ul class="belonging-list">
-                <li class="belonging-item animate__animated" style="animation-delay: 0.2s;">
+                <li class="belonging-item" data-animation="fadeInUp" data-animation-delay="0.2s">
                     <span class="belonging-icon">✓</span>
                     <span><strong> Profit Konsisten</strong> di market</span>
                 </li>
-                <li class="belonging-item animate__animated" style="animation-delay: 0.6s;">
+                <li class="belonging-item" data-animation="fadeInUp" data-animation-delay="0.3s">
                     <span class="belonging-icon">✓</span>
                     <span>punya <strong>sistem trading yang simple</strong> tanpa tebak-tebakan dan dipakai smart money terbukti profitable</span>
                 </li>
-                <li class="belonging-item animate__animated" style="animation-delay: 0.8s;">
+                <li class="belonging-item" data-animation="fadeInUp" data-animation-delay="0.4s">
                     <span class="belonging-icon">✓</span>
                     <span>Trading dengan<strong> Modal kecil</strong> dan ingin grow sampai puluhan bahkan ratusan juta</span>
                 </li>
-                <li class="belonging-item animate__animated" style="animation-delay: 1s;">
+                <li class="belonging-item" data-animation="fadeInUp" data-animation-delay="0.5s">
                     <span class="belonging-icon">✓</span>
                     <span>Ingin tergabung komunitas yang <strong>supportive dan growth mindset</strong></span>
                 </li>
-                <li class="belonging-item animate__animated" style="animation-delay: 1s;">
+                <li class="belonging-item" data-animation="fadeInUp" data-animation-delay="0.6s">
                     <span class="belonging-icon">✓</span>
                     <span><strong>Stop jadi Exit Liquidity</strong> buat para smart money di market</span>
                 </li>
@@ -1893,8 +1760,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <section class="section solution-section">
         <div class="container">
             <div class="solution-grid">
-                <div class="solution-image-wrapper">
-                <div class="solution-content">
+                <div class="solution-image-wrapper" data-animation="fadeInLeft">
+                    <!-- Gambar akan di-load di sini -->
+                </div>
+                <div class="solution-content" data-animation="fadeInRight" data-animation-delay="0.2s">
                     <h2 class="section-title">Moonshot Academy Hadir Untukmu</h2>
                     <p class="solution-subtitle">Satu-satunya ekosistem yang kamu butuhkan untuk menjadi trader mandiri & profesional.</p>
                     <ul class="solution-list">
@@ -1924,10 +1793,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <section class="section features-section">
         <div class="container">
-            <h2 class="section-title">Apa Yang Akan Kalian Dapatkan?</h2>
+            <h2 class="section-title" data-animation="fadeInUp">Apa Yang Akan Kalian Dapatkan?</h2>
             <div class="features">
-                <div class="feature-card animate__animated animate__popup" style="animation-delay: 0.1s;">
-                    <div class="feature-images-grid animate__animated animate__popup" style="animation-delay: 0.2s;">
+                <div class="feature-card" data-animation="zoomIn" data-animation-delay="0.1s">
+                    <div class="feature-images-grid">
                         <div class="grid-item large">
                             <img src="feature-1a.png" alt="Sniper Entry Presisi 1">
                         </div>
@@ -1944,103 +1813,103 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </h3>
                     <p>Kalian Akan Mendapat Signal Forex, XAU Dan Crypto Setiap Hari Dengan Breakdown Trade Untuk Belajar</p>
                 </div>
-                <div class="feature-card animate__animated animate__popup" style="animation-delay: 0.2s;">
-        <div class="feature-swiper-container animate__animated animate__popup" style="animation-delay: 0.1s;">
-            <div class="swiper featureSwiper1">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="a.png" alt="Modul Strategi Alchemist">
+                <div class="feature-card" data-animation="zoomIn" data-animation-delay="0.2s">
+                    <div class="feature-swiper-container">
+                        <div class="swiper featureSwiper1">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="a.png" alt="Modul Strategi Alchemist">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="b.png" alt="Diagram ICT">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="bim.png" alt="Contoh Analisis MSNR">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="swiper-slide">
-                        <img src="b.png" alt="Diagram ICT">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="bim.png" alt="Contoh Analisis MSNR">
-                    </div>
+                    <h3>
+                        Bimbingan Dari 0 
+                        <img src="badge-verified.png" alt="Verified" style="height: 1em; width: auto;">
+                    </h3>
+                    <p>Kalian Akan Diajari Step By Step Sampai Jago. Full Access Materi Teknikal, Fundamental Dan Data.</p>
                 </div>
+                <div class="feature-card" data-animation="zoomIn" data-animation-delay="0.3s">
+                    <div class="feature-swiper-container">
+                        <div class="swiper featureSwiper2">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="tvmain.png" alt="Tampilan TradingView Premium 1">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="tv1.png" alt="Tampilan TradingView Premium 2">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="tv2.png" alt="Fitur TradingView Premium">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>
+                        Free TradingView Premium
+                        <img src="badge-verified.png" alt="Verified" style="height: 1em; width: auto;">
+                    </h3>
+                    <p>Kalian akan mendapat akun Tradingview Premium pribadi senilai 1,3Jt/bln. kalian akan mendapatkan akun ini secara gratis ketika bergabung</p>
                 </div>
-        </div>
-        <h3>
-            Bimbingan Dari 0 
-            <img src="badge-verified.png" alt="Verified" style="height: 1em; width: auto;">
-        </h3>
-        <p>Kalian Akan Diajari Step By Step Sampai Jago. Full Access Materi Teknikal, Fundamental Dan Data.</p>
-    </div>
-                <div class="feature-card animate__animated animate__popup" style="animation-delay: 0.3s;">
-        <div class="feature-swiper-container animate__animated animate__popup" style="animation-delay: 0.1s;">
-            <div class="swiper featureSwiper2">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="tvmain.png" alt="Tampilan TradingView Premium 1">
+               <div class="feature-card" data-animation="zoomIn" data-animation-delay="0.4s">
+                    <div class="feature-swiper-container">
+                        <div class="swiper featureSwiper3">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="otl1.png" alt="Contoh Mapping Pasar Forex">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="otl2.png" alt="Contoh Mapping Pasar Crypto">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="otl3.png" alt="Analisis Weekly Outlook">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="swiper-slide">
-                        <img src="tv1.png" alt="Tampilan TradingView Premium 2">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="tv2.png" alt="Fitur TradingView Premium">
-                    </div>
+                    <h3>
+                        Mapping Outlook Weekly
+                        <img src="badge-verified.png" alt="Verified" style="height: 1em; width: auto;">
+                    </h3>
+                    <p>Update Mapping Pair Forex, Crypto Untuk Info Arah Market. ($BTC, XAUUSD, GBPUSD, EURUSD dll..) </p>
                 </div>
+                <div class="feature-card" data-animation="zoomIn" data-animation-delay="0.5s">
+                    <div class="feature-swiper-container">
+                        <div class="swiper featureSwiper4">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="pmcok.png" alt="Sesi Mentoring 1-on-1">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="pm2.png" alt="Diskusi Strategi Personal">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="pm3.png" alt="Review Trading Bersama Mentor">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>
+                        Private Mentoring
+                        <img src="badge-verified.png" alt="Verified" style="height: 1em; width: auto;">
+                    </h3>
+                    <p>sesi bimbingan 1-on-1. jadi kamu bisa belajar secara intensif, fokus dan personal. cocok buat kalian yang pengen belajar tapi bingung mau mulai darimana</p>
                 </div>
-        </div>
-        <h3>
-            Free TradingView Premium
-            <img src="badge-verified.png" alt="Verified" style="height: 1em; width: auto;">
-        </h3>
-        <p>Kalian akan mendapat akun Tradingview Premium pribadi senilai 1,3Jt/bln. kalian akan mendapatkan akun ini secara gratis ketika bergabung</p>
-    </div>
-               <div class="feature-card animate__animated animate__popup" style="animation-delay: 0.4s;">
-        <div class="feature-swiper-container animate__animated animate__popup" style="animation-delay: 0.1s;">
-            <div class="swiper featureSwiper3">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="otl1.png" alt="Contoh Mapping Pasar Forex">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="otl2.png" alt="Contoh Mapping Pasar Crypto">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="otl3.png" alt="Analisis Weekly Outlook">
-                    </div>
-                </div>
-                </div>
-        </div>
-        <h3>
-            Mapping Outlook Weekly
-            <img src="badge-verified.png" alt="Verified" style="height: 1em; width: auto;">
-        </h3>
-        <p>Update Mapping Pair Forex, Crypto Untuk Info Arah Market. ($BTC, XAUUSD, GBPUSD, EURUSD dll..) </p>
-    </div>
-                <div class="feature-card animate__animated animate__popup" style="animation-delay: 0.5s;">
-        <div class="feature-swiper-container animate__animated animate__popup" style="animation-delay: 0.1s;">
-            <div class="swiper featureSwiper4">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="pmcok.png" alt="Sesi Mentoring 1-on-1">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="pm2.png" alt="Diskusi Strategi Personal">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="pm3.png" alt="Review Trading Bersama Mentor">
-                    </div>
-                </div>
-                </div>
-        </div>
-        <h3>
-            Private Mentoring
-            <img src="badge-verified.png" alt="Verified" style="height: 1em; width: auto;">
-        </h3>
-        <p>sesi bimbingan 1-on-1. jadi kamu bisa belajar secara intensif, fokus dan personal. cocok buat kalian yang pengen belajar tapi bingung mau mulai darimana</p>
-    </div>
-                <div class="feature-card animate__animated animate__popup" style="animation-delay: 0.1s;">
-                    <div class="feature-images-grid animate__animated animate__popup" style="animation-delay: 0.2s;">
+                <div class="feature-card" data-animation="zoomIn" data-animation-delay="0.6s">
+                    <div class="feature-images-grid">
                         <div class="grid-item large">
                             <img src="news1.png" alt="Sniper Entry Presisi 1">
                         </div>
                         <div class="grid-item small">
                             <img src="news2.png" alt="Sniper Entry Presisi 2">
                         </div>
-                        <div class="grid-item small" id="trigger-modal">
+                        <div class="grid-item small" id="trigger-modal-2">
                             <img src="news3.png" alt="Sniper Entry Presisi 3">
                         </div>
                     </div>
@@ -2055,9 +1924,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <section id="pricing-section" class="section pricing-section">
         <div class="container">
-            <h2 class="section-title">Gabung Sekarang!</h2>
-            <p style="text-align: center; margin-bottom: 40px; color: var(--text-secondary);">"Sekali bayar Akses Selamanya Tanpa Ada Biaya Tambahan"</p>
-            <div class="pricing-card animate__animated animate__popup">
+            <h2 class="section-title" data-animation="fadeInUp">Gabung Sekarang!</h2>
+            <p style="text-align: center; margin-bottom: 40px; color: var(--text-secondary);" data-animation="fadeInUp" data-animation-delay="0.2s">"Sekali bayar Akses Selamanya Tanpa Ada Biaya Tambahan"</p>
+            <div class="pricing-card" data-animation="fadeInUp" data-animation-delay="0.4s">
                 
                 <div class="popular-tag">GOLDEN CHANCE</div>
                 <h3>
@@ -2115,58 +1984,90 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </section>
 
+    <!-- === START: Bagian Testimoni yang Diperbarui === -->
     <section class="section testimonials-section">
-        <div class="container">
+        <div class="container" data-animation="fadeInUp">
             <h2 class="section-title">Apa Kata Member Kami</h2>
-            <div class="testimonials-container">
-                <div class="swiper mySwiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="testimonial-slide">
-                                <img src="22.png" alt="Member 1">
-                                <p>"makasih @Brorichard signal 100 pipsnya dapet!"</p>
-                                <span>— Nearist, @VerifiedTrader</span>
-                            </div>
+        </div>
+        <div class="testimonials-container" data-animation="fadeInUp" data-animation-delay="0.2s">
+            <!-- Swiper -->
+            <div class="swiper testimonial-swiper">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <img src="22.png" alt="Member 1" class="avatar">
+                            <p class="text">"makasih @Brorichard signal 100 pipsnya dapet!"</p>
+                            <span class="author">— Nearist, @VerifiedTrader</span>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="testimonial-slide">
-                                <img src="2.png" alt="Member 2">
-                                <p>"Gacor abdis strategi dari beliau ini @Brorichard"</p>
-                                <span>— Den Yan, @VerifiedTrader</span>
-                            </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <img src="2.png" alt="Member 2" class="avatar">
+                            <p class="text">"Gacor abis strategi dari beliau ini @Brorichard"</p>
+                            <span class="author">— Den Yan, @VerifiedTrader</span>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="testimonial-slide">
-                                <img src="3.png" alt="Member 3">
-                                <p>"thankyou admin buat ilmunya gacor banget buat scalping xau"</p>
-                                <span>— Lone, @VerifiedTrader</span>
-                            </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <img src="3.png" alt="Member 3" class="avatar">
+                            <p class="text">"thankyou admin buat ilmunya gacor banget buat scalping xau"</p>
+                            <span class="author">— Lone, @VerifiedTrader</span>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="testimonial-slide">
-                                <img src="1.png" alt="Member 4">
-                                <p>"Gacor kinggg, thanks ilmunya @BroRichard"</p>
-                                <span>— Juan, @VerifiedTrader</span>
-                            </div>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <img src="1.png" alt="Member 4" class="avatar">
+                            <p class="text">"Gacor kinggg, thanks ilmunya @BroRichard"</p>
+                            <span class="author">— Juan, @VerifiedTrader</span>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="testimonial-slide">
-                                <img src="5.png" alt="Member 5">
-                                <p>"gw akuin strateginya gg bjir cocok buat pemula yang trading pake modal kecil"</p>
-                                <span>— Rusdimus3301, @VerifiedTrader</span>
-                            </div>
+                    </div>
+                    <!-- Slide 5 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <img src="5.png" alt="Member 5" class="avatar">
+                            <p class="text">"gw akuin strateginya gg bjir cocok buat pemula yang trading pake modal kecil"</p>
+                            <span class="author">— Rusdimus3301, @VerifiedTrader</span>
+                        </div>
+                    </div>
+                    <!-- Slide 6 (New) -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <img src="https://placehold.co/80x80/3B82F6/FFFFFF?text=F" alt="Member 6" class="avatar">
+                            <p class="text">"Materinya daging banget, langsung bisa dipraktekin. Recommended!"</p>
+                            <span class="author">— Fajar, @VerifiedTrader</span>
+                        </div>
+                    </div>
+                    <!-- Slide 7 (New) -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <img src="https://placehold.co/80x80/3B82F6/FFFFFF?text=S" alt="Member 7" class="avatar">
+                            <p class="text">"Akhirnya nemu komunitas yang bener-bener supportif. Gak nyesel join!"</p>
+                            <span class="author">— Santi, @VerifiedTrader</span>
+                        </div>
+                    </div>
+                    <!-- Slide 8 (New) -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <img src="https://placehold.co/80x80/3B82F6/FFFFFF?text=R" alt="Member 8" class="avatar">
+                            <p class="text">"Dari yang tadinya sering MC, sekarang udah bisa konsisten profit. Makasih Moonshot!"</p>
+                            <span class="author">— Rian, @VerifiedTrader</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <!-- === END: Bagian Testimoni yang Diperbarui === -->
 
     <section class="section faq-section">
         <div class="container">
-            <h2 class="section-title">Frequently Asked Questions</h2>
+            <h2 class="section-title" data-animation="fadeInUp">Frequently Asked Questions</h2>
             <div class="accordion">
-                <div class="accordion-item">
+                <div class="accordion-item" data-animation="fadeInUp" data-animation-delay="0.2s">
                     <div class="accordion-header">
                         <h3>Saya pemula, apakah ini cocok untuk saya?</h3>
                         <span>+</span>
@@ -2175,7 +2076,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <p>Tentu saja cocok, materi kami disusun dari nol dan fitur mentoring 1-on-1 kami rancang khusus untuk memastikan pemula seperti Anda tidak tertinggal dan bisa bertanya apapun sampai paham.</p>
                     </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item" data-animation="fadeInUp" data-animation-delay="0.3s">
                     <div class="accordion-header">
                         <h3>Metode Pembayaran apa saja yang diterima?</h3>
                         <span>+</span>
@@ -2188,7 +2089,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         </p>
                     </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item" data-animation="fadeInUp" data-animation-delay="0.4s">
                     <div class="accordion-header">
                         <h3>Apakah ada garansi profit atau uang kembali?</h3>
                         <span>+</span>
@@ -2197,7 +2098,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <p>Kami tidak memberikan garansi profit, karena itu adalah ciri penipuan. Trading memiliki risiko. Namun, kami menjamin kualitas materi dan mentoring yang kami berikan untuk memaksimalkan potensi keberhasilan Anda.</p>
                     </div>
                 </div>
-                    <div class="accordion-item">
+                    <div class="accordion-item" data-animation="fadeInUp" data-animation-delay="0.5s">
                     <div class="accordion-header">
                         <h3>Kenapa harganya murah banget? Pasti ini scam ya?</h3>
                         <span>+</span>
@@ -2212,13 +2113,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
     <section id="gemini-feature-section" class="section gemini-feature-section">
         <div class="container">
-            <h2 class="section-title">Ada Pertanyaan? Tanyakan Pada AI</h2>
-            <div class="ai-chatbot">
+            <h2 class="section-title" data-animation="fadeInUp">Ada Pertanyaan? Tanyakan Pada AI</h2>
+            <div class="ai-chatbot" data-animation="fadeInUp" data-animation-delay="0.2s">
                 <div class="ai-chatbot-header">
-                    <span class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="12" width="16" height="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2"/></svg>
-                    </span>
-                    <h3>Moonshot AI Assistant</h3>
+                    <div class="header-left">
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="12" width="16" height="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2"/></svg>
+                        </span>
+                        <h3>Moonshot AI Assistant</h3>
+                    </div>
+                    <div class="status">
+                        <span class="status-dot"></span>
+                        Online
+                    </div>
                 </div>
                 <div id="chat-window" class="chat-window">
                     <div class="chat-message ai">
@@ -2230,13 +2137,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         </div>
                     </div>
                 </div>
-                <div id="loader" class="loader" style="display: none;"></div>
                 <div class="chat-input-area">
-                    <input type="text" id="prompt-input" placeholder="Ketik pertanyaan Anda di sini...">
+                    <input type="text" id="prompt-input" placeholder="Ketik pertanyaan Anda...">
                     <button id="generator-button" class="cta-button">
                         <span>Kirim</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
-                          <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                          <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Z"/>
                         </svg>
                     </button>
                 </div>
@@ -2250,10 +2156,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="cta-decoration d3"></div>
         <div class="cta-decoration d4"></div>
         <div class="container">
-            <p class="cta-kicker">Kesempatan Terakhir</p>
-            <h2>Tunggu Apalagi? Mulai Profit Sekarang!</h2>
-            <p>Bergabung dengan <strong>ratusan trader sukses</strong> lainnya dan ubah uang receh menjadi <strong>ratusan juta!</strong></p>
-            <a href="#pricing-section" class="cta-button">Gabung Sekarang</a>
+            <p class="cta-kicker" data-animation="fadeInUp">Kesempatan Terakhir</p>
+            <h2 data-animation="fadeInUp" data-animation-delay="0.2s">Tunggu Apalagi? Mulai Profit Sekarang!</h2>
+            <p data-animation="fadeInUp" data-animation-delay="0.4s">Bergabung dengan <strong>ratusan trader sukses</strong> lainnya dan ubah uang receh menjadi <strong>ratusan juta!</strong></p>
+            <a href="#pricing-section" class="cta-button" data-animation="fadeInUp" data-animation-delay="0.6s">Gabung Sekarang</a>
         </div>
     </section>
     <footer>
@@ -2311,50 +2217,54 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
-            // --- START: Animation Logic for Sections ---
-            const sectionsToAnimate = {
-                '.solution-section': (target) => {
-                    target.querySelector('.solution-image-wrapper')?.classList.add('is-visible');
-                    target.querySelector('.solution-content')?.classList.add('is-visible');
-                },
-                '.final-cta': (target) => {
-                    target.classList.add('is-visible');
-                }
-            };
-
-            const observerCallback = (entries, observer) => {
+            // --- START: Scroll Animation Logic ---
+            const animatedElements = document.querySelectorAll('[data-animation]');
+            const animationObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        const selector = '.' + entry.target.className.split(' ').find(cls => sectionsToAnimate[`.${cls}`]);
-                        if (selector && sectionsToAnimate[selector]) {
-                            sectionsToAnimate[selector](entry.target);
-                            observer.unobserve(entry.target);
+                        const el = entry.target;
+                        const animation = el.getAttribute('data-animation');
+                        const delay = el.getAttribute('data-animation-delay');
+
+                        if (delay) {
+                            el.style.animationDelay = delay;
                         }
+                        
+                        el.classList.add('animate__animated', `animate__${animation}`);
+                        el.style.opacity = 1;
+
+                        observer.unobserve(el);
                     }
                 });
-            };
+            }, { threshold: 0.1 });
 
-            const animationObserver = new IntersectionObserver(observerCallback, { threshold: 0.2 });
-
-            Object.keys(sectionsToAnimate).forEach(selector => {
-                const section = document.querySelector(selector);
-                if (section) {
-                    animationObserver.observe(section);
-                }
+            animatedElements.forEach(el => {
+                animationObserver.observe(el);
             });
-            // --- END: Animation Logic ---
+            // --- END: Scroll Animation Logic ---
 
-            const swiperTestimonials = new Swiper('.mySwiper', {
+
+            // --- START: Testimonial Swiper Initialization ---
+            const swiperTestimonials = new Swiper('.testimonial-swiper', {
+                effect: 'coverflow',
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: 'auto',
                 loop: true,
                 autoplay: {
-                    delay: 5000,
+                    delay: 4000,
                     disableOnInteraction: false,
-                    pauseOnMouseEnter: true
+                    pauseOnMouseEnter: true,
                 },
-                slidesPerView: 1,
-                spaceBetween: 30,
-                centeredSlides: true,
+                coverflowEffect: {
+                    rotate: 0,
+                    stretch: 80,
+                    depth: 200,
+                    modifier: 1,
+                    slideShadows: false,
+                },
             });
+            // --- END: Testimonial Swiper Initialization ---
 
             const accordionHeaders = document.querySelectorAll('.accordion-header');
             accordionHeaders.forEach(header => {
@@ -2365,10 +2275,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     
                     document.querySelectorAll('.accordion-content').forEach(c => {
                         c.classList.remove('open');
-                    });
-                    document.querySelectorAll('.accordion-header span').forEach(s => {
-                        s.textContent = '+';
-                        s.style.transform = 'rotate(0deg)';
+                        const otherIcon = c.previousElementSibling.querySelector('span');
+                        otherIcon.textContent = '+';
+                        otherIcon.style.transform = 'rotate(0deg)';
                     });
 
                     if (!isOpen) {
@@ -2413,35 +2322,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 });
             }
 
-            const animateElements = document.querySelectorAll('.animate__animated');
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: "0px 0px -50px 0px"
-            };
-
-            const observer = new IntersectionObserver((entries, obs) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        if (entry.target.classList.contains('feature-card') || entry.target.classList.contains('pricing-card') || entry.target.classList.contains('feature-images-grid')) {
-                            entry.target.classList.add('animate__popup');
-                        } else {
-                            entry.target.classList.add('animate__fadeInUp');
-                        }
-                        
-                        const delay = entry.target.style.animationDelay;
-                        if (delay) {
-                            entry.target.style.animationDelay = delay;
-                        }
-                        
-                        obs.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            animateElements.forEach(el => {
-                observer.observe(el);
-            });
-
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -2456,20 +2336,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 });
             });
 
-            setTimeout(() => {
-                const ctaButtons = document.querySelectorAll('.cta-button');
-                ctaButtons.forEach((button, index) => {
-                    button.style.animationDelay = `${index * 0.2}s`;
-                    // Let the intersection observer handle opacity
-                    if(!button.closest('.final-cta') && !button.closest('.hero-actions')) {
-                         button.style.opacity = '1';
-                         button.style.transform = 'translateY(0) scale(1)';
-                    }
-                });
-            }, 300);
-
             const modal = document.getElementById("imageModal");
             const trigger = document.getElementById("trigger-modal");
+            const trigger2 = document.getElementById("trigger-modal-2");
             const closeBtn = document.querySelector(".close");
 
             const modalSwiper = new Swiper('.modalSwiper', {
@@ -2491,35 +2360,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 spaceBetween: 30,
                 centeredSlides: true,
             });
-
-            if(trigger) {
-                trigger.onclick = function() {
-                    modal.style.display = "block";
-                    modalSwiper.autoplay.stop();
-                }
-            }
             
-            if(closeBtn) {
-                closeBtn.onclick = function() {
-                    modal.style.display = "none";
-                    modalSwiper.autoplay.start();
-                }
-            }
+            const openModal = () => {
+                modal.style.display = "block";
+                modalSwiper.autoplay.stop();
+                document.body.style.overflow = 'hidden';
+            };
+            
+            const closeModal = () => {
+                modal.style.display = "none";
+                modalSwiper.autoplay.start();
+                document.body.style.overflow = 'auto';
+            };
+
+            if(trigger) trigger.onclick = openModal;
+            if(trigger2) trigger2.onclick = openModal;
+            if(closeBtn) closeBtn.onclick = closeModal;
 
             window.onclick = function(event) {
                 if (event.target == modal) {
-                    modal.style.display = "none";
-                    modalSwiper.autoplay.start();
+                    closeModal();
                 }
             }
-
-            modal.addEventListener('show', function () {
-                document.body.style.overflow = 'hidden';
-            });
-
-            modal.addEventListener('hide', function () {
-                document.body.style.overflow = 'auto';
-            });
             
             function startCountdown() {
                 let countdownEndTime = localStorage.getItem('countdownEndTime');
@@ -2549,8 +2411,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
 
             function showRealTimeNotification() {
-                const names = ["Budi", "Ani", "Candra", "Dedi", "Eka", "Fani", "Gita", "Hadi", "Indra", "Joko"];
-                const cities = ["Jakarta", "Surabaya", "Bandung", "Medan", "Semarang", "Makassar", "Palembang", "Yogyakarta", "Denpasar", "Bekasi"];
+                const names = ["Harry Bayu", "Farhan P.", "Candra", "Dedi", "Rafli", "Danang", "Gita", "Hadi", "Nurhadi", "Evan"];
+                const cities = ["Jakarta", "Surabaya", "Ngawi", "Medan", "Semarang", "Madiun", "Palembang", "Yogyakarta", "Denpasar", "Bekasi"];
                 
                 const randomName = names[Math.floor(Math.random() * names.length)];
                 const randomCity = cities[Math.floor(Math.random() * cities.length)];
@@ -2613,7 +2475,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 showTypingIndicator();
                 
                 try {
-                    const context = `ANDA ADALAH SALES SPECIALIST MOONSHOT ACADEMY - EKOSISTEM TRADING ELITE DENGAN TRACK RECORD TERBUKTI.
+                    const context = `
+ANDA ADALAH SALES SPECIALIST MOONSHOT ACADEMY - EKOSISTEM TRADING ELITE DENGAN TRACK RECORD TERBUKTI.
 
 === PERSONALITY CORE ===
 • TAHAP 1 (Opening): Friendly, helpful, membangun rapport
@@ -2664,6 +2527,13 @@ KUALITAS DIRAGUKAN:
 MASIH MIKIR-MIKIR:
 "While you think, winners sudah join dan profit. Slot terbatas dan harga ini ga akan ada lama. Bulan depan kita ga jamin masih ada slot."
 
+UANG KURANG TAPI MAU JOIN:
+"Lu serius mau join tapi uangnya kurang? Coba dulu nabung atau pinjam ke keluarga. 249k itu investasi paling kecil buat future lu. Kalau masih susah, tunggu gajian atau jual barang yang ga kepake."
+
+BENAR-BENAR TIDAK PUNYA UANG & SERIOUS:
+HANYA jika user explicitly bilang "benar-benar tidak punya uang" DAN tetap ingin join, baru tawarkan:
+"Oke, kalau lu beneran serius dan ga ada uang sama sekali, ada satu cara via Introducing Broker. Tapi ini khusus yang beneran committed. [LINK: Join Via IB - Chat Richard | https://api.whatsapp.com/send/?phone=62895324069850&text=Halo+Bro+Richard%2C+Saya+Mau+Join+Gratis+Via+IB+nih&type=phone_number&app_absent=0]"
+
 === FORBIDDEN RESPONSES ===
 ❌ JANGAN pernah bilang "semoga membantu"
 ❌ JANGAN kasih jawaban panjang dan bertele-tele  
@@ -2672,6 +2542,8 @@ MASIH MIKIR-MIKIR:
 ❌ JANGAN expose framework keywords (HOOK, PAIN, SOLUTION, SCARCITY, CLOSE)
 ❌ JANGAN tampilkan tanda ** atau formatting internal
 ❌ JANGAN tunjukkan struktur internal ke user
+❌ JANGAN langsung tawarkan IB kalau user cuma bilang "mahal" atau "kurang uang"
+❌ HANYA tawarkan IB jika user EXPLICIT bilang "benar-benar tidak punya uang" DAN tetap mau join
 
 === CLOSING ARSENAL ===
 🔥 "Stop jadi spectator, saatnya jadi player"
@@ -2688,7 +2560,8 @@ MASIH MIKIR-MIKIR:
 
 === LINKS ===
 Admin Contact: [LINK: Chat Admin Sekarang | https://wa.me/62895324069850]
-Payment CTA: Tombol "Amankan Investasi Lifetime Saya Sekarang!"
+IB Registration (HANYA untuk yang benar-benar tidak punya uang): [LINK: Join Via IB - Chat Richard | https://api.whatsapp.com/send/?phone=62895324069850&text=Halo+Bro+Richard%2C+Saya+Mau+Join+Gratis+Via+IB+nih&type=phone_number&app_absent=0]
+Payment CTA: Tombol "Gabung Sekarang!"
 
 INGAT: Lu bukan customer service biasa. Lu adalah CLOSER yang tugasnya convert prospect jadi paying member. Setiap kata harus calculated untuk profit maksimal.
 `;
@@ -2780,27 +2653,7 @@ INGAT: Lu bukan customer service biasa. Lu adalah CLOSER yang tugasnya convert p
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             }
             
-            const featureSwipers = document.querySelectorAll('.feature-swiper-container');
-            featureSwipers.forEach((swiperEl, index) => {
-                const swiper = new Swiper(swiperEl, {
-                    loop: true,
-                    autoplay: {
-                        delay: 3000 + (index * 500),
-                        disableOnInteraction: false,
-                    },
-                    pagination: {
-                        el: swiperEl.querySelector('.swiper-pagination'),
-                        clickable: true,
-                    },
-                    navigation: {
-                        nextEl: swiperEl.querySelector('.swiper-button-next'),
-                        prevEl: swiperEl.querySelector('.swiper-button-prev'),
-                    },
-                });
-            });
-
-        });
-
+            // --- START: Corrected Swiper Initializations ---
             const swiperFeature1 = new Swiper('.featureSwiper1', {
                 loop: true,
                 autoplay: {
@@ -2813,7 +2666,7 @@ INGAT: Lu bukan customer service biasa. Lu adalah CLOSER yang tugasnya convert p
             const swiperFeature2 = new Swiper('.featureSwiper2', {
                 loop: true,
                 autoplay: {
-                    delay: 2500,
+                    delay: 2800,
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true
                 },
@@ -2822,7 +2675,7 @@ INGAT: Lu bukan customer service biasa. Lu adalah CLOSER yang tugasnya convert p
             const swiperFeature3 = new Swiper('.featureSwiper3', {
                 loop: true,
                 autoplay: {
-                    delay: 2500,
+                    delay: 3100,
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true
                 },
@@ -2831,11 +2684,13 @@ INGAT: Lu bukan customer service biasa. Lu adalah CLOSER yang tugasnya convert p
             const swiperFeature4 = new Swiper('.featureSwiper4', {
                 loop: true,
                 autoplay: {
-                    delay: 2500,
+                    delay: 3400,
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true
                 },
             });
+            // --- END: Corrected Swiper Initializations ---
+        });
     </script>
 </body>
 </html>
