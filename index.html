@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="id-ID">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-V7QGHTE54M"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V7QGHTE54M"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -29,7 +28,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <!-- Animate.css for scroll animations -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <style>
@@ -73,6 +71,11 @@
             --text-3xl: clamp(1.6rem, 6vw, 1.875rem);
             --text-4xl: clamp(1.8rem, 7vw, 2.25rem);
             --text-5xl: clamp(2rem, 8vw, 2.75rem);
+
+             /* Consistent spacing from mm.html */
+            --section-padding-mobile: 60px;
+            --section-padding-desktop: 120px;
+            --container-padding: 20px;
         }
 
         body {
@@ -156,8 +159,9 @@
             background-color: var(--bg-secondary); /* Fallback color */
             background-image: url('bghero.png');
             background-size: cover;
-            background-position: center right; /* Focus the background to the right */
+            background-position: center center; /* <-- DIUBAH DARI 'center right' */
             background-repeat: no-repeat;
+            background-attachment: fixed; /* <-- PARALLAX DITAMBAHKAN */
             overflow: hidden;
         }
 
@@ -306,6 +310,219 @@
             transition: all 0.1s ease;
         }
 
+        /* --- STYLES START: Added from mm.html --- */
+        [data-animate] {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        [data-animate].animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Problem Section - REDESIGNED */
+        .problem-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #f0f4ff 10%, #e0e7ff 100%);
+            padding: var(--section-padding-mobile) 0;
+        }
+
+        .problem-intro {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .problem-grid {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 24px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .problem-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            border-left: 4px solid #ef4444;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .problem-card:hover {
+            transform: translateX(8px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-left-width: 6px;
+        }
+
+        .problem-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover .problem-icon {
+            transform: rotate(90deg) scale(1.1);
+            background: linear-gradient(135deg, #fecaca 0%, #f87171 100%);
+        }
+
+        .problem-text {
+            flex: 1;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .problem-conclusion {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border: 2px solid var(--primary);
+            max-width: 800px;
+            margin: 0 auto;
+            animation: pulse-border 2s infinite;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { border-color: var(--primary); }
+            50% { border-color: var(--primary-light); }
+        }
+
+        /* Belonging Section - REDESIGNED with Timeline */
+        .belonging-section {
+            background: var(--bg-primary);
+            position: relative;
+            padding: var(--section-padding-mobile) 0;
+        }
+
+        .benefits-timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Timeline vertical line */
+        .benefits-timeline::before {
+            content: "";
+            position: absolute;
+            left: 18px;
+            top: 40px;
+            bottom: 40px;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 2px;
+        }
+
+        .benefit-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            margin-left: 50px;
+            border: 2px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+        }
+
+        .benefit-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px 0 0 4px;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .benefit-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .benefit-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .benefit-number {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-md);
+            position: absolute;
+            left: -50px;
+            top: 20px;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover .benefit-number {
+            transform: scale(1.15) rotate(360deg);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+        }
+
+        .benefit-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-left: -14px;
+        }
+
+        .benefit-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Stagger animation delays */
+        .benefit-card:nth-child(1) { animation-delay: 0.1s; }
+        .benefit-card:nth-child(2) { animation-delay: 0.2s; }
+        .benefit-card:nth-child(3) { animation-delay: 0.3s; }
+        .benefit-card:nth-child(4) { animation-delay: 0.4s; }
+        .benefit-card:nth-child(5) { animation-delay: 0.5s; }
+        /* --- STYLES END: Added from mm.html --- */
+
+
+        /* --- STYLES START: Original from main.html --- */
         .problem-content {
             max-width: 700px;
             margin: 0 auto;
@@ -335,9 +552,9 @@
             font-weight: bold;
         }
 
-        .belonging-section {
+        /* .belonging-section {
             background-color: var(--bg-secondary);
-        }
+        } */ /* REPLACED by mm.html style */
 
         .belonging-list {
             max-width: 700px;
@@ -1444,6 +1661,7 @@
             .hero {
                 text-align: center;
                 background-position: center center;
+                background-attachment: scroll; /* <-- PARALLAX DIMATIKAN DI HP */
             }
 
             .hero::before {
@@ -1507,6 +1725,37 @@
             .section {
                 padding: 60px 0;
             }
+
+            /* --- STYLES START: Added from mm.html (Mobile) --- */
+            .problem-section, .belonging-section {
+                padding: var(--section-padding-mobile) 0;
+            }
+            .problem-grid {
+                grid-template-columns: 1fr; /* Single column on mobile */
+            }
+            .benefits-timeline::before {
+                left: 18px; /* Back to left side for mobile */
+                transform: translateX(0);
+                top: 40px;
+                bottom: 40px;
+            }
+            .benefit-card {
+                width: auto; /* Full width minus margin */
+                margin-left: 50px; /* Keep margin for timeline */
+                margin-bottom: 20px;
+            }
+            .benefit-card:nth-child(odd) {
+                margin-right: 0;
+            }
+            .benefit-card:nth-child(even) {
+                margin-left: 50px; /* Keep margin for timeline */
+            }
+            .benefit-card:nth-child(odd) .benefit-number,
+            .benefit-card:nth-child(even) .benefit-number {
+                left: -50px; /* All numbers on the left */
+                right: auto;
+            }
+             /* --- STYLES END: Added from mm.html (Mobile) --- */
             
             .final-cta {
                 padding: 80px 0;
@@ -1612,7 +1861,108 @@
                 font-size: 0.65rem;
             }
              /* --- END: Mobile Pricing Card Optimization --- */
+
+            /* --- START: Mobile Height Reduction (Task 3) --- */
+            .testimonials-section {
+                padding-top: 30px;
+                padding-bottom: 30px;
+            }
+            .testimonials-section .section-title {
+                margin-bottom: 20px;
+            }
+            .testimonial-swiper {
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+            .testimonial-card {
+                padding: 25px 15px 20px 15px;
+                transform: scale(0.85); /* Make side cards even smaller */
+            }
+            .testimonial-swiper .swiper-slide-active .testimonial-card {
+                transform: scale(0.95); /* Make active card slightly smaller */
+            }
+            .testimonial-card .avatar {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 15px;
+            }
+            .testimonial-card .text {
+                min-height: auto; /* Remove fixed min-height */
+                margin-bottom: 15px;
+                font-size: 0.9rem; /* Slightly smaller text */
+            }
+            .testimonial-card .author {
+                font-size: 0.85rem;
+            }
+
+            .faq-section {
+                padding-top: 40px;
+                padding-bottom: 40px;
+            }
+            .faq-section .section-title {
+                margin-bottom: 25px;
+            }
+            .accordion-header {
+                padding: 18px 20px;
+            }
+            .accordion-header h3 {
+                font-size: 1rem; /* Slightly smaller font */
+            }
+            .accordion-content.open {
+                padding: 0 20px 18px 20px;
+            }
+            /* --- END: Mobile Height Reduction (Task 3) --- */
         }
+
+        /* --- STYLES START: Added from mm.html (Desktop) --- */
+        @media (min-width: 768px) {
+            .section {
+                /* Overriding main.html's padding-top: 0 for mobile */
+                padding: var(--section-padding-desktop) 0; 
+            }
+
+            .problem-section, .belonging-section {
+                padding: var(--section-padding-desktop) 0;
+            }
+            
+            .problem-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            .benefits-timeline::before {
+                left: 50%;
+                transform: translateX(-50%);
+                top: 60px;
+                bottom: 60px;
+            }
+
+            .benefit-card {
+                width: calc(50% - 30px);
+                margin-left: 0;
+                margin-bottom: 40px;
+            }
+
+            .benefit-card:nth-child(odd) {
+                margin-right: auto;
+            }
+
+            .benefit-card:nth-child(even) {
+                margin-left: auto;
+            }
+
+            .benefit-card:nth-child(odd) .benefit-number {
+                left: auto;
+                right: -60px;
+            }
+
+            .benefit-card:nth-child(even) .benefit-number {
+                left: -60px;
+                right: auto;
+            }
+        }
+        /* --- STYLES END: Added from mm.html (Desktop) --- */
+
 
         @media (max-width: 375px) {
             .feature-card h3 {
@@ -1674,19 +2024,15 @@
     }
     </script>
 
-        <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-WC4G3R98');</script>
-<!-- End Google Tag Manager -->
 <body>
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WC4G3R98"
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WC4G3R98"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-    <div id="particles-js"></div>
+<div id="particles-js"></div>
 
     <section class="hero">
         <div class="container hero-container">
@@ -1695,7 +2041,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 <h1 class="hero-headline">
                     Ubah <span class="highlight-text">Uang Receh</span><br>
-                    Menjadi <span class="highlight-text-gradient">Ratusan Juta</span><br>
+                    Jadi <span class="highlight-text-gradient">Ratusan Juta</span><br>
                     Dengan <span class="highlight-text">Sniper Entry</span>
                 </h1>
                 <p class="subtitle">
@@ -1711,48 +2057,100 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
     </section>
+
     <section class="section problem-section">
         <div class="container">
-            <h2 class="section-title" data-animation="fadeInUp">Kenapa Banyak Trader Gagal?</h2>
-            <div class="problem-content">
-                <p data-animation="fadeInUp" data-animation-delay="0.2s">Jika Kamu Trading Masih :</p>
-                <ul class="problem-list">
-                    <li data-animation="fadeInUp" data-animation-delay="0.3s">Entry sembarangan tanpa strategi yang jelas</li>
-                    <li data-animation="fadeInUp" data-animation-delay="0.4s">Stop Loss terlalu tebal dan Lot Terlalu Besar</li>
-                    <li data-animation="fadeInUp" data-animation-delay="0.5s">Mengandalkan signal abal-abal dari sosial media</li>
-                    <li data-animation="fadeInUp" data-animation-delay="0.6s">Tidak memiliki strategi konsisten</li>
-                    <li data-animation="fadeInUp" data-animation-delay="0.7s">FOMO, Overtrade Hingga Revenge Trading Sampai MC</li>
-                </ul>
-                <p data-animation="fadeInUp" data-animation-delay="0.8s"><strong>Bagus! Berarti Kamu Masih Jadi Mangsa Buat Para Smart Money</strong></p>
+            <h2 class="section-title">Kenapa Banyak Trader Gagal?</h2>
+            <p class="problem-intro">Jika Kamu Trading Masih:</p>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">✕</div>
+                    <div class="problem-text">Entry sembarangan tanpa strategi yang jelas</div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">✕</div>
+                    <div class="problem-text">Stop Loss terlalu tebal dan Lot Terlalu Besar</div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">✕</div>
+                    <div class="problem-text">Mengandalkan signal abal-abal dari sosial media</div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">✕</div>
+                    <div class="problem-text">Tidak memiliki strategi konsisten</div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">✕</div>
+                    <div class="problem-text">FOMO, Overtrade Hingga Revenge Trading Sampai MC</div>
+                </div>
+            </div>
+
+            <div class="problem-conclusion">
+                Bagus! Berarti Kamu Masih Jadi Mangsa Buat Para Smart Money
             </div>
         </div>
     </section>
 
     <section class="section belonging-section">
         <div class="container">
-            <h2 class="section-title" data-animation="fadeInUp">Tapi Jika Kalian Ingin</h2>
-            <ul class="belonging-list">
-                <li class="belonging-item" data-animation="fadeInUp" data-animation-delay="0.2s">
-                    <span class="belonging-icon">✓</span>
-                    <span><strong> Profit Konsisten</strong> di market</span>
-                </li>
-                <li class="belonging-item" data-animation="fadeInUp" data-animation-delay="0.3s">
-                    <span class="belonging-icon">✓</span>
-                    <span>punya <strong>sistem trading yang simple</strong> tanpa tebak-tebakan dan dipakai smart money terbukti profitable</span>
-                </li>
-                <li class="belonging-item" data-animation="fadeInUp" data-animation-delay="0.4s">
-                    <span class="belonging-icon">✓</span>
-                    <span>Trading dengan<strong> Modal kecil</strong> dan grow sampai puluhan bahkan ratusan juta</span>
-                </li>
-                <li class="belonging-item" data-animation="fadeInUp" data-animation-delay="0.5s">
-                    <span class="belonging-icon">✓</span>
-                    <span>Ingin tergabung komunitas yang <strong>supportive dan growth mindset</strong></span>
-                </li>
-                <li class="belonging-item" data-animation="fadeInUp" data-animation-delay="0.6s">
-                    <span class="belonging-icon">✓</span>
-                    <span><strong>Stop jadi Exit Liquidity</strong> buat para smart money di market</span>
-                </li>
-            </ul>
+            <h2 class="section-title">Tapi Jika Kalian Ingin</h2>
+            
+            <div class="benefits-timeline">
+                <div class="benefit-card" data-animate>
+                    <div class="benefit-number">1</div>
+                    <div class="benefit-header">
+                        <div class="benefit-title">Profit Konsisten</div>
+                    </div>
+                    <p class="benefit-description">
+                        Raih profit konsisten di market dengan sistem yang teruji dan terbukti profitable
+                    </p>
+                </div>
+
+                <div class="benefit-card" data-animate>
+                    <div class="benefit-number">2</div>
+                    <div class="benefit-header">
+                        <div class="benefit-title">Sistem Simple</div>
+                    </div>
+                    <p class="benefit-description">
+                        Punya sistem trading yang simple tanpa tebak-tebakan, dipakai smart money dan terbukti profitable
+                    </p>
+                </div>
+
+                <div class="benefit-card" data-animate>
+                    <div class="benefit-number">3</div>
+                    <div class="benefit-header">
+                        <div class="benefit-title">Grow Modal Kecil</div>
+                    </div>
+                    <p class="benefit-description">
+                        Trading dengan modal kecil dan grow sampai puluhan bahkan ratusan juta rupiah
+                    </p>
+                </div>
+
+                <div class="benefit-card" data-animate>
+                    <div class="benefit-number">4</div>
+                    <div class="benefit-header">
+                        <div class="benefit-title">Punya Komunitas Supportif</div>
+                    </div>
+                    <p class="benefit-description">
+                        Tergabung komunitas yang supportive dan growth mindset untuk berkembang bersama
+                    </p>
+                </div>
+
+                <div class="benefit-card" data-animate>
+                    <div class="benefit-number">5</div>
+                    <div class="benefit-header">
+                        <div class="benefit-title">Stop Exit Liquidity</div>
+                    </div>
+                    <p class="benefit-description">
+                        Berhenti jadi exit liquidity buat para smart money di market, saatnya jadi pemain utama
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1760,8 +2158,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="container">
             <div class="solution-grid">
                 <div class="solution-image-wrapper" data-animation="fadeInLeft">
-                    <!-- Gambar akan di-load di sini -->
-                </div>
+                    </div>
                 <div class="solution-content" data-animation="fadeInRight" data-animation-delay="0.2s">
                     <h2 class="section-title">Moonshot Academy Hadir Untukmu</h2>
                     <p class="solution-subtitle">Satu-satunya ekosistem yang kamu butuhkan untuk menjadi trader mandiri & profesional.</p>
@@ -1983,16 +2380,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </section>
 
-    <!-- === START: Bagian Testimoni yang Diperbarui === -->
     <section class="section testimonials-section">
         <div class="container" data-animation="fadeInUp">
             <h2 class="section-title">Apa Kata Member Kami</h2>
         </div>
         <div class="testimonials-container" data-animation="fadeInUp" data-animation-delay="0.2s">
-            <!-- Swiper -->
             <div class="swiper testimonial-swiper">
                 <div class="swiper-wrapper">
-                    <!-- Slide 1 -->
                     <div class="swiper-slide">
                         <div class="testimonial-card">
                             <img src="22.png" alt="Member 1" class="avatar">
@@ -2000,7 +2394,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <span class="author">— Nearist, @VerifiedTrader</span>
                         </div>
                     </div>
-                    <!-- Slide 2 -->
                     <div class="swiper-slide">
                         <div class="testimonial-card">
                             <img src="2.png" alt="Member 2" class="avatar">
@@ -2008,7 +2401,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <span class="author">— Den Yan, @VerifiedTrader</span>
                         </div>
                     </div>
-                    <!-- Slide 3 -->
                     <div class="swiper-slide">
                         <div class="testimonial-card">
                             <img src="3.png" alt="Member 3" class="avatar">
@@ -2016,7 +2408,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <span class="author">— Lone, @VerifiedTrader</span>
                         </div>
                     </div>
-                    <!-- Slide 4 -->
                     <div class="swiper-slide">
                         <div class="testimonial-card">
                             <img src="1.png" alt="Member 4" class="avatar">
@@ -2024,7 +2415,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <span class="author">— Juan, @VerifiedTrader</span>
                         </div>
                     </div>
-                    <!-- Slide 5 -->
                     <div class="swiper-slide">
                         <div class="testimonial-card">
                             <img src="5.png" alt="Member 5" class="avatar">
@@ -2032,7 +2422,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <span class="author">— Rusdimus3301, @VerifiedTrader</span>
                         </div>
                     </div>
-                    <!-- Slide 6 (New) -->
                     <div class="swiper-slide">
                         <div class="testimonial-card">
                             <img src="https://placehold.co/80x80/3B82F6/FFFFFF?text=F" alt="Member 6" class="avatar">
@@ -2040,7 +2429,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <span class="author">— Fajar, @VerifiedTrader</span>
                         </div>
                     </div>
-                    <!-- Slide 7 (New) -->
                     <div class="swiper-slide">
                         <div class="testimonial-card">
                             <img src="https://placehold.co/80x80/3B82F6/FFFFFF?text=S" alt="Member 7" class="avatar">
@@ -2048,7 +2436,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <span class="author">— Santi, @VerifiedTrader</span>
                         </div>
                     </div>
-                    <!-- Slide 8 (New) -->
                     <div class="swiper-slide">
                         <div class="testimonial-card">
                             <img src="https://placehold.co/80x80/3B82F6/FFFFFF?text=R" alt="Member 8" class="avatar">
@@ -2060,8 +2447,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
     </section>
-    <!-- === END: Bagian Testimoni yang Diperbarui === -->
-
     <section class="section faq-section">
         <div class="container">
             <h2 class="section-title" data-animation="fadeInUp">Frequently Asked Questions</h2>
@@ -2689,6 +3074,26 @@ INGAT: Lu bukan customer service biasa. Lu adalah CLOSER yang tugasnya convert p
                 },
             });
             // --- END: Corrected Swiper Initializations ---
+        });
+    </script>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('[data-animate]').forEach(el => {
+            observer.observe(el);
         });
     </script>
 </body>
